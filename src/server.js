@@ -12,6 +12,7 @@ function validateEnvVariable() {
             console.log('Env variable validation completed.');
       } catch (error) {
             console.log('Env variable validation failed');
+            err = new Error()
             if (error instanceof ZodError) {
                   console.log('Missing/Invalid variables:');
                   console.log('########################');

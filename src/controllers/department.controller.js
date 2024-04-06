@@ -1,7 +1,5 @@
-module.exports = ({ departmentService }) => {
-      return Object.freeze({
-            createDepartment: async (req, res, next) => {
-                  const department = await departmentService.createDepartment(req.body);
-            }
-      })
-}
+const departmentSchema = require('../models/department.model');
+const { createDepartment } = require('../services/department.service');
+
+exports.createDepartmentController = createDepartment(departmentSchema);
+
