@@ -1,16 +1,12 @@
 require('dotenv').config();
-const departmentSchema = require('../models/department.model');
 const { catchAsync } = require('../utils/catchAsync');
+const sendSuccessRespose = require('../utils/sendSuccessResponse');
 
 exports.getUserServices = Model => catchAsync(async (req, res) => {
       const user = await Model.findOne();
       console.log("user: ", user)
       if (!user) return res.status(404).json({ message: "no user data" });
-      res.status(200).json(
-            {
-                  status: "success",
-                  message: user
-            });
+      sendSuccessRespose({ res, user });
 });
 
 exports.loginServices = Model => catchAsync(async (req, res) => {
@@ -18,8 +14,7 @@ exports.loginServices = Model => catchAsync(async (req, res) => {
       if (!email && !password) return res.status(400).json({ message: "Invalid!" });
       const checkEmail = await Model.find({ email });
 
-      res.status(200).json({ status: "success" });
-     
+      sendSuccessRespose({ res, checkEmail });
 });
 // user create service;
 exports.createUserService = Model => catchAsync(async (req, res) => {
@@ -29,5 +24,5 @@ exports.createUserService = Model => catchAsync(async (req, res) => {
 
       const user = await Model.create(req.body);
       console.log("user: ", user);
-      res.status(200).json({ status: "success" });
+      sendSuccessRespose({ res, user });
 });
