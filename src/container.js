@@ -1,7 +1,8 @@
 const awilix = require('awilix');
 
 // Controller
-const createDepartmentControllers = require('./controllers/department.controller')
+const createDepartmentControllers = require('./controllers/department.controller');
+const authControllers = require('./controllers/auth.controller');
 // Service
 const createDepartmentService = require('./services/department.service');
 
@@ -12,7 +13,8 @@ const container = awilix.createContainer();
 
 function loadControllers() {
       const controllers = {
-            departmentController: awilix.asFunction(createDepartmentControllers.createDepartmentController)
+            departmentController: awilix.asFunction(createDepartmentControllers.createDepartmentController),
+            authController: awilix.asFunction(authControllers.userCreateController)
       };
       container.register(controllers);
 };

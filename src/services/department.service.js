@@ -1,23 +1,18 @@
+const { catchAsync } = require("../utils/catchAsync");
 
-exports.createDepartment = Model => async (req, res) => {
-      try {
-            console.log("values: ",req.body);
-            const checkUser = await Model.find(req.body);
-            if (checkUser.length) return res.status(401).json({ message: "already user" });
-            console.log("checkUser: ", checkUser);
-            const { name, type } = req.body;
-            const departmentData = await Model.find()
-            let filterId = Object.keys(departmentData).length;
-            filterId += 1;
-            console.log("filterId: ", filterId);
-            const departmentId = `Dp-00${filterId}`
-            const dots = await Model.create({name,type,departmentId});
+exports.createDepartment = Model => catchAsync(async (req, res, next) => {
+      const checkUser = await Model.find(req.body);
+      if (checkUser.length) return res.status(401).json({ message: "already user" });
+      
+      const dots = await Model.create(req.body);
+      res.status(200).json({ message: "dots" });
+});
 
-            res.status(200).json({ message: "dots" });
-      } catch (error) {
-            res.status(400).json({
-                  status: "fail",
-                  message: error.message
-            })
-      }
-};
+exports.getDepartment = Model => catchAsync(async (req, res, next) => {
+      const department = await Model.find();
+      if (!department) return res.status(404).json({ status: "fail", message: department });
+      res.status(200).json({
+            status: "success",
+            data: department
+      });
+});

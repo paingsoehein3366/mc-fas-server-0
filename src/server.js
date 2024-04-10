@@ -1,9 +1,9 @@
 require('dotenv').config();
-const  mongoose  = require('mongoose');
 const app = require("./app");
 const { PORT, DB } = require('./constants');
 const envSchema = require('./schema/env.schema');
 const { ZodError } = require('zod');
+const mongoose = require('mongoose');
 
 function validateEnvVariable() {
       try {
@@ -23,9 +23,8 @@ function validateEnvVariable() {
 async function connectToDatabase() {
       try {
             mongoose.connect(DB, {
-                  useNewUrlParser: true
-            });
-            console.log(("Connected to mongoDB"));
+                        useNewUrlParser: true
+                  }).then(() => console.log('DB connection successful!'));
       } catch (error) {
             console.log('Error while connecting to MongoDB');
             console.log(error);

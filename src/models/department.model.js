@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const createCustomldMiddleware = require('../middlewares/model-customld-middleware.helper')
 
 const departmentSchema = mongoose.Schema({
       name: {
@@ -17,5 +18,14 @@ const departmentSchema = mongoose.Schema({
              required: true,
        }
 });
+
+departmentSchema.pre(
+      "validate",
+      createCustomldMiddleware({
+            modleName: 'Department',
+            prefix:'Dp',
+            fieldName: 'departmentId'
+      })
+)
 
 module.exports = mongoose.model('Department', departmentSchema);

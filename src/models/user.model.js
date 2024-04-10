@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = require('mongoose');
+const createCustomIdMiddleware = require('../middlewares/model-customld-middleware.helper');
 
 const userSchema = mongoose.Schema({
       name: {
@@ -52,6 +53,15 @@ const userSchema = mongoose.Schema({
             },
       }
 });
+
+userSchema.pre(
+      "validate",
+      createCustomIdMiddleware({
+            modleName: 'User',
+            prefix: "U",
+            fieldName: "userId"
+      })
+);
 
 const User = mongoose.model('user', userSchema);
 module.exports = User;
